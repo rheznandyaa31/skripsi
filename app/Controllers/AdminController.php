@@ -15,7 +15,17 @@ class AdminController extends BaseController
 {
     public function index()
     {
-        return view('admin/dashboard');
+        $userModel = new UserModel();
+        $produkModel = new ProdukModel();
+        $bahanBakuModel = new BahanBakuModel();
+        $penjualanModel = new PenjualanModel();
+
+        $data['total_users'] = $userModel->countAll();
+        $data['total_produk'] = $produkModel->countAll();
+        $data['total_bahan'] = $bahanBakuModel->countAll();
+        $data['total_penjualan'] = $penjualanModel->countAll();
+
+        return view('admin/dashboard', $data);
     }
 
     // User Management

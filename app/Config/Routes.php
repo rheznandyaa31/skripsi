@@ -5,9 +5,12 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->get('/', 'Home::index');
+$routes->get('/', 'AuthController::login');
+$routes->get('login', 'AuthController::login');
+$routes->post('login/attempt', 'AuthController::attemptLogin');
+$routes->get('logout', 'AuthController::logout');
 
-$routes->group('owner', function ($routes) {
+$routes->group('owner', ['filter' => 'auth'], function ($routes) {
     $routes->get('/', 'OwnerController::index');
     $routes->get('stok-bahan-baku', 'OwnerController::stokBahanBaku');
     $routes->get('laporan-penjualan', 'OwnerController::laporanPenjualan');
@@ -16,7 +19,7 @@ $routes->group('owner', function ($routes) {
     $routes->post('update-harga', 'OwnerController::updateHargaProduk');
 });
 
-$routes->group('admin', function ($routes) {
+$routes->group('admin', ['filter' => 'auth'], function ($routes) {
     $routes->get('/', 'AdminController::index');
     $routes->get('users', 'AdminController::users');
     $routes->post('users/create', 'AdminController::createUser');
@@ -26,7 +29,7 @@ $routes->group('admin', function ($routes) {
     $routes->get('laporan', 'AdminController::laporan');
 });
 
-$routes->group('gudang', function ($routes) {
+$routes->group('gudang', ['filter' => 'auth'], function ($routes) {
     $routes->get('/', 'GudangController::index');
     $routes->get('monitoring', 'GudangController::monitoring');
     $routes->post('update-stok', 'GudangController::updateStok');

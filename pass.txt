@@ -1,2 +1,3 @@
 - Admin : admin / admin123
 - Owner : owner / owner123
+- Gudang : gudang / gudang123

@@ -13,7 +13,21 @@ class OwnerController extends BaseController
 {
     public function index()
     {
-        return view('owner/dashboard');
+        $bahanBakuModel = new BahanBakuModel();
+        $produkModel = new ProdukModel();
+        $penjualanModel = new PenjualanModel();
+
+        $data['stok_menipis'] = $bahanBakuModel->where('stok <= stok_minimal')->countAllResults();
+        $data['total_produk'] = $produkModel->countAll();
+        
+        // Pendapatan bulan ini
+        $data['pendapatan_bulan_ini'] = $penjualanModel->where('tanggal >=', date('Y-m-01'))
+                                                      ->selectSum('total_harga')
+                                                      ->first()['total_harga'] ?? 0;
+                                                      
+        $data['total_transaksi'] = $penjualanModel->countAll();
+
+        return view('owner/dashboard', $data);
     }
 
     public function stokBahanBaku()
