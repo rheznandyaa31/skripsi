@@ -1,0 +1,38 @@
+#--------------------------------------------------------------------
+# CodeIgniter 4 .gitignore
+#--------------------------------------------------------------------
+
+# PHP dependencies
+/vendor/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Writable directories
+/writable/*
+!/writable/index.html
+!/writable/cache/index.html
+!/writable/debugbar/index.html
+!/writable/logs/index.html
+!/writable/session/index.html
+!/writable/uploads/index.html
+
+# Database files
+*.sqlite
+/writable/*.db
+
+# IDE and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Testing
+/tests/_support/Database/Migrations/*
+!/tests/_support/Database/Migrations/.gitkeep
+
+# Build and logs
+/build/
+*.log
