@@ -70,13 +70,26 @@ class OwnerController extends BaseController
     public function updateHargaProduk()
     {
         $produkModel = new ProdukModel();
-        $id = $this->request->getPost('id');
+        $id = (int) $this->request->getPost('id');
         $harga = $this->request->getPost('harga_jual');
+
+        if ($id <= 0) {
+            return redirect()->back()->with('error', 'Produk tidak valid.');
+        }
+
+        if (! is_numeric($harga) || $harga < 0) {
+            return redirect()->back()->with('error', 'Harga jual harus berupa angka dan tidak boleh negatif.');
+        }
+
+        $produk = $produkModel->find($id);
+        if (! $produk) {
+            return redirect()->back()->with('error', 'Data produk tidak ditemukan.');
+        }
 
         if ($produkModel->update($id, ['harga_jual' => $harga])) {
             return redirect()->back()->with('success', 'Harga produk berhasil diperbarui.');
-        } else {
-            return redirect()->back()->with('error', 'Gagal memperbarui harga produk.');
         }
+
+        return redirect()->back()->with('error', 'Gagal memperbarui harga produk.');
     }
 }

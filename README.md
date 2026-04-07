@@ -1,69 +1,71 @@
-# CodeIgniter 4 Application Starter
+# Sistem Manajemen Inventaris & Penjualan - Lurrr Chicken
 
-## What is CodeIgniter?
+Sistem berbasis web yang dirancang untuk mengelola stok bahan baku, transaksi penjualan, dan pelaporan untuk tiga level pengguna: Admin, Owner, dan Petugas Gudang.
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+## Fitur Utama
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+- **Dashboard Real-time**: Ringkasan statistik untuk masing-masing role.
+- **Monitoring Stok**: Notifikasi otomatis untuk stok yang menipis atau habis.
+- **Manajemen Pengguna**: Pengaturan hak akses (Admin, Owner, Gudang).
+- **Update Stok**: Pencatatan arus masuk dan keluar bahan baku secara presisi.
+- **Pemesanan Bahan**: Sistem pengajuan pesanan bahan ke supplier.
+- **Laporan Lengkap**: Laporan penjualan dan stok yang dapat dicetak.
+- **Keamanan**: Sistem login terproteksi dengan enkripsi password.
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+## Persyaratan Sistem
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+- PHP >= 8.1
+- MySQL / MariaDB
+- Composer
+- Web Server (Apache/Nginx) atau menggunakan fitur bawaan PHP
 
-## Installation & updates
+## Langkah Instalasi
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+1.  **Ekstrak Project**
+    Ekstrak file project ke direktori web server Anda (misal: `htdocs` atau `/var/www/html`).
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+2.  **Install Dependensi**
+    Buka terminal di folder project dan jalankan:
+    ```bash
+    composer install
+    ```
 
-## Setup
+3.  **Konfigurasi Environment**
+    Salin file `.env.example` menjadi `.env`:
+    ```bash
+    cp .env.example .env
+    ```
+    Buka file `.env` dan sesuaikan konfigurasi database Anda:
+    ```env
+    database.default.hostname = localhost
+    database.default.database = nama_db_anda
+    database.default.username = root
+    database.default.password = password_db_anda
+    ```
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+4.  **Persiapan Database**
+    - Buat database baru di MySQL dengan nama yang sesuai di `.env`.
+    - Impor file `skripsi.sql` yang tersedia di root folder ke database tersebut.
+    - *Atau*, jalankan migrasi via terminal:
+      ```bash
+      php spark migrate
+      php spark db:seed OwnerSeeder
+      ```
 
-## Important Change with index.php
+5.  **Menjalankan Aplikasi**
+    Jalankan perintah berikut:
+    ```bash
+    php spark serve
+    ```
+    Akses melalui browser di: `http://localhost:8080`
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+## Akun Akses Default
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+| Peran | Username | Password |
+| :--- | :--- | :--- |
+| **Admin** | `admin` | `admin123` |
+| **Owner** | `owner` | `owner123` |
+| **Gudang** | `gudang` | `gudang123` |
 
-**Please** read the user guide for a better explanation of how CI4 works!
-
-## Repository Management
-
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
-
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
-
-## Server Requirements
-
-PHP version 8.2 or higher is required, with the following extensions installed:
-
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
-
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - The end of life date for PHP 8.1 was December 31, 2025.
-> - If you are still using below PHP 8.2, you should upgrade immediately.
-> - The end of life date for PHP 8.2 will be December 31, 2026.
-
-Additionally, make sure that the following extensions are enabled in your PHP:
-
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+## Catatan Penting
+Pastikan folder `writable` memiliki izin akses tulis (chmod 777) agar sistem dapat menyimpan log dan cache dengan benar.

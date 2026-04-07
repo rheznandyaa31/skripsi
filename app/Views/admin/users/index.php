@@ -57,12 +57,14 @@
                                 <div class="text-muted extra-small"><?= date('H:i', strtotime($user['created_at'])) ?> WIB</div>
                             </td>
                             <td class="pe-4 py-3 text-end">
-                                <button class="btn btn-light btn-sm rounded-3 me-1" title="Edit">
+                                <a href="<?= base_url('admin/users/edit/' . $user['id']) ?>" class="btn btn-light btn-sm rounded-3 me-1" title="Edit">
                                     <i class="bi bi-pencil-square text-primary"></i>
-                                </button>
-                                <button class="btn btn-light btn-sm rounded-3" title="Hapus">
-                                    <i class="bi bi-trash3 text-danger"></i>
-                                </button>
+                                </a>
+                                <form action="<?= base_url('admin/users/delete/' . $user['id']) ?>" method="post" class="d-inline" onsubmit="return confirm('Yakin ingin menghapus user ini?');">
+                                    <button type="submit" class="btn btn-light btn-sm rounded-3" title="Hapus">
+                                        <i class="bi bi-trash3 text-danger"></i>
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     <?php endforeach; ?>
@@ -93,8 +95,9 @@
                         <label class="form-label small fw-bold text-muted text-uppercase">Password</label>
                         <div class="input-group">
                             <span class="input-group-text bg-light border-0 rounded-start-3"><i class="bi bi-key text-muted"></i></span>
-                            <input type="password" name="password" class="form-control bg-light border-0 rounded-end-3 py-2" placeholder="••••••••" required>
+                            <input type="password" name="password" class="form-control bg-light border-0 rounded-end-3 py-2" placeholder="Minimal 8 karakter, angka, simbol, huruf besar" minlength="8" required>
                         </div>
+                        <div class="form-text small">Sandi harus minimal 8 karakter dan mengandung angka, simbol, dan huruf besar.</div>
                     </div>
                     <div class="mb-3">
                         <label class="form-label small fw-bold text-muted text-uppercase">Nama Lengkap</label>

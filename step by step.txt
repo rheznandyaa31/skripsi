@@ -1,0 +1,114 @@
+STEP BY STEP MENJALANKAN PROJECT UNTUK CLIENT
+
+1. PERSIAPAN AWAL
+   - Pastikan komputer sudah terpasang:
+     - PHP minimal versi 8.1
+     - MySQL atau MariaDB
+     - Composer
+   - Pastikan web browser (Chrome/Edge/Firefox) tersedia.
+
+2. COPY PROJECT
+   - Copy folder project "skripsi" yang diberikan ke komputer client.
+   - Simpan di lokasi yang nyaman, misalnya:
+     - Windows: C:\xampp\htdocs\skripsi
+     - Linux/Mac: /var/www/skripsi atau folder kerja lain.
+
+3. INSTALL DEPENDENSI PHP
+   - Buka terminal / Command Prompt di dalam folder project "skripsi".
+   - Jalankan perintah:
+     composer install
+   - Tunggu sampai proses instalasi selesai (internet harus aktif).
+
+4. SIAPKAN FILE .ENV
+   - Di dalam folder project sudah ada file ".env.example".
+   - Duplikasi file ini menjadi ".env".
+     Contoh:
+       - Windows: copy .env.example .env
+       - Linux/Mac: cp .env.example .env
+
+5. ATUR KONFIGURASI DATABASE DI .ENV
+   - Buka file .env dengan text editor.
+   - Cari bagian:
+       database.default.hostname
+       database.default.database
+       database.default.username
+       database.default.password
+   - Sesuaikan dengan setting MySQL di komputer client, contoh:
+       database.default.hostname = localhost
+       database.default.database = skripsi
+       database.default.username = root
+       database.default.password = (kosong atau sesuai password MySQL client)
+
+6. BUAT DATABASE DI MYSQL
+   - Masuk ke phpMyAdmin atau MySQL client lain.
+   - Buat database baru dengan nama yang sama seperti di .env
+     (contoh: skripsi).
+
+7. IMPORT DATA AWAL (SQL)
+   - Di root project terdapat file:
+       skripsi.sql
+   - Import file ini ke database yang baru dibuat:
+     - Via phpMyAdmin:
+       - Pilih database skripsi
+       - Tab "Import"
+       - Pilih file skripsi.sql
+       - Klik "Go" / "Import"
+
+8. IZIN FOLDER WRITABLE
+   - Pastikan folder "writable" bisa ditulis oleh web server.
+   - Untuk Linux/Mac (opsional):
+       chmod -R 777 writable
+   - Untuk Windows, pastikan tidak ada pembatasan permission pada folder tersebut.
+
+9. JALANKAN APLIKASI DENGAN PHP SPARK
+   - Di terminal, masih di folder project "skripsi", jalankan:
+       php spark serve
+   - Secara default server akan berjalan di:
+       http://localhost:8080
+   - Jika port 8080 sudah dipakai, CodeIgniter akan mengalihkan ke port lain
+     (misal 8081 atau 8082). Perhatikan informasi di terminal.
+
+10. AKSES APLIKASI DI BROWSER
+   - Buka browser, ketik alamat sesuai port:
+       http://localhost:8080
+   - Akan tampil halaman login sistem.
+
+11. LOGIN AKUN DEFAULT
+   - Sistem sudah menyediakan akun bawaan:
+       - Admin
+           Username : admin
+           Password : admin123
+       - Owner
+           Username : owner
+           Password : owner123
+       - Gudang
+           Username : gudang
+           Password : gudang123
+
+12. UJI FITUR UTAMA
+   - Login sebagai Admin, cek:
+       - Manajemen Pengguna
+       - Manajemen Produk
+       - Stok & Pemesanan
+       - Laporan
+   - Login sebagai Owner, cek:
+       - Dashboard ringkasan bisnis
+       - Monitoring Stok
+       - Laporan Penjualan
+       - Laporan Stok
+       - Atur Harga Produk
+   - Login sebagai Gudang, cek:
+       - Dashboard Gudang
+       - Monitoring Stok
+       - Update Stok Masuk/Keluar
+       - Pemesanan Bahan Baku
+
+13. PERSIAPAN UNTUK SERVER PRODUKSI (OPSIONAL)
+   - Pindahkan seluruh isi folder project ke server (shared hosting/VPS).
+   - Sesuaikan konfigurasi .env dengan database server produksi.
+   - Pastikan folder "writable" dapat ditulis.
+   - Atur virtual host agar domain/subdomain mengarah ke folder "public" CodeIgniter
+     jika menggunakan web server (Apache/Nginx).
+
+SELESAI
+Jika semua langkah di atas diikuti, project sudah siap digunakan oleh client.

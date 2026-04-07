@@ -147,6 +147,12 @@
             font-weight: 600;
         }
 
+        .toggle-password {
+            cursor: pointer;
+            border-radius: 0 12px 12px 0;
+            border-left: none;
+        }
+
         .footer-text {
             text-align: center;
             margin-top: 24px;
@@ -196,6 +202,9 @@
                     <div class="input-group">
                         <span class="input-group-text"><i class="bi bi-lock"></i></span>
                         <input type="password" class="form-control" name="password" id="password" placeholder="Masukkan password" required>
+                        <span class="input-group-text toggle-password" id="togglePassword">
+                            <i class="bi bi-eye-slash" id="togglePasswordIcon"></i>
+                        </span>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-login w-100">
@@ -210,5 +219,19 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const passwordInput = document.getElementById('password');
+        const togglePassword = document.getElementById('togglePassword');
+        const toggleIcon = document.getElementById('togglePasswordIcon');
+
+        if (passwordInput && togglePassword && toggleIcon) {
+            togglePassword.addEventListener('click', function () {
+                const isHidden = passwordInput.getAttribute('type') === 'password';
+                passwordInput.setAttribute('type', isHidden ? 'text' : 'password');
+                toggleIcon.classList.toggle('bi-eye');
+                toggleIcon.classList.toggle('bi-eye-slash');
+            });
+        }
+    </script>
 </body>
 </html>

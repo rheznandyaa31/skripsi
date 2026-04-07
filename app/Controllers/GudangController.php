@@ -31,12 +31,24 @@ class GudangController extends BaseController
         $bahanBakuModel = new BahanBakuModel();
         $stokLogModel = new StokLogModel();
 
-        $id = $this->request->getPost('bahan_baku_id');
+        $id = (int) $this->request->getPost('bahan_baku_id');
         $tipe = $this->request->getPost('tipe');
-        $jumlah = $this->request->getPost('jumlah');
+        $jumlah = (int) $this->request->getPost('jumlah');
         $keterangan = $this->request->getPost('keterangan');
 
+        if (! in_array($tipe, ['masuk', 'keluar'], true)) {
+            return redirect()->back()->with('error', 'Tipe transaksi tidak valid.');
+        }
+
+        if ($id <= 0 || $jumlah <= 0) {
+            return redirect()->back()->with('error', 'Bahan dan jumlah harus diisi dengan benar.');
+        }
+
         $bahan = $bahanBakuModel->find($id);
+        if (! $bahan) {
+            return redirect()->back()->with('error', 'Data bahan baku tidak ditemukan.');
+        }
+
         $stokBaru = ($tipe == 'masuk') ? $bahan['stok'] + $jumlah : $bahan['stok'] - $jumlah;
 
         if ($stokBaru < 0) {
@@ -80,10 +92,18 @@ class GudangController extends BaseController
     public function buatPesanan()
     {
         $pemesananModel = new PemesananBahanModel();
+        $bahanId = (int) $this->request->getPost('bahan_baku_id');
+        $jumlah = (int) $this->request->getPost('jumlah');
+        $supplier = trim((string) $this->request->getPost('supplier'));
+
+        if ($bahanId <= 0 || $jumlah <= 0 || $supplier === '') {
+            return redirect()->back()->with('error', 'Bahan, jumlah, dan supplier wajib diisi dengan benar.');
+        }
+
         $data = [
-            'bahan_baku_id' => $this->request->getPost('bahan_baku_id'),
-            'jumlah'        => $this->request->getPost('jumlah'),
-            'supplier'      => $this->request->getPost('supplier'),
+            'bahan_baku_id' => $bahanId,
+            'jumlah'        => $jumlah,
+            'supplier'      => $supplier,
             'status'        => 'pending',
             'tanggal_pesan' => date('Y-m-d H:i:s'),
         ];
